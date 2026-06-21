@@ -577,6 +577,9 @@ try {
   sqliteDb.exec("ALTER TABLE settings ADD COLUMN creditCardEnabled INTEGER DEFAULT 1;");
 } catch (e) {}
 try {
+  sqliteDb.exec("ALTER TABLE settings ADD COLUMN debitCardEnabled INTEGER DEFAULT 1;");
+} catch (e) {}
+try {
   sqliteDb.exec("ALTER TABLE settings ADD COLUMN sitePrice REAL DEFAULT 97.0;");
 } catch (e) {}
 try {
