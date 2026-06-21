@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Pacifico&family=Montserrat:wght@700;900&family=Playfair+Display:ital,wght@1,700;1,900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  
+  --color-instagram-pink: #e1306c;
+  --color-instagram-orange: #f77737;
+  --color-instagram-purple: #833ab4;
+  --color-instagram-yellow: #fcaf45;
+  --color-instagram-blue: #0095f6;
+  
+  --animate-pulse-glow: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-map-pulse: map-pulse 1.8s infinite ease-out;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(225, 48, 108, 0.4);
+  }
+  50% {
+    opacity: .95;
+    transform: scale(1.03);
+    box-shadow: 0 0 16px 4px rgba(225, 48, 108, 0.2);
+  }
+}
+
+@keyframes map-pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 149, 246, 0.5);
+  }
+  70% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 10px rgba(0, 149, 246, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 149, 246, 0);
+  }
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fafafa;
+  color: #262626;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+/* Hide scrollbars for story scroll sections */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Custom gorgeous scrollbar for feed and chat */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #dbdbdb;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c7c7c7;
+}
+
+/* Custom instagram border gradient wrapper (e.g. stories and notifications active ring) */
+.insta-ring {
+  padding: 2px;
+  background: linear-gradient(45deg, var(--color-instagram-yellow), var(--color-instagram-orange), var(--color-instagram-pink), var(--color-instagram-purple));
+  border-radius: 50%;
+}
+
+/* Fluid Typography Utilities using clamp() and relative rem/vw units */
+.text-fluid-xs {
+  font-size: clamp(0.6875rem, 0.62rem + 0.3vw, 0.8125rem); /* ~11px to 13px */
+}
+
+.text-fluid-sm {
+  font-size: clamp(0.75rem, 0.68rem + 0.4vw, 0.9375rem); /* ~12px to 15px */
+}
+
+.text-fluid-base {
+  font-size: clamp(0.875rem, 0.8rem + 0.5vw, 1.0625rem); /* ~14px to 17px */
+}
+
+.text-fluid-lg {
+  font-size: clamp(1rem, 0.9rem + 0.6vw, 1.25rem); /* ~16px to 20px */
+}
+
+.text-fluid-xl {
+  font-size: clamp(1.125rem, 1rem + 0.8vw, 1.5rem); /* ~18px to 24px */
+}
+
+.text-fluid-2xl {
+  font-size: clamp(1.35rem, 1.2rem + 1vw, 2rem); /* ~21.6px to 32px */
+}
+
+.text-fluid-3xl {
+  font-size: clamp(1.65rem, 1.4rem + 1.5vw, 2.75rem); /* ~26px to 44px */
+}
+
+/* Fluid Padding Utilities using clamp() and relative rem/vw units */
+.p-fluid-xs {
+  padding: clamp(0.375rem, 0.3rem + 0.4vw, 0.625rem);
+}
+
+.p-fluid-sm {
+  padding: clamp(0.5rem, 0.4rem + 0.6vw, 0.875rem);
+}
+
+.p-fluid-md {
+  padding: clamp(0.75rem, 0.6rem + 1vw, 1.5rem);
+}
+
+.p-fluid-lg {
+  padding: clamp(1.25rem, 1rem + 1.5vw, 2.5rem);
+}
+
+/* Fluid Margin Utilities using clamp() and relative rem/vw units */
+.m-fluid-xs {
+  margin: clamp(0.375rem, 0.3rem + 0.4vw, 0.625rem);
+}
+
+.m-fluid-sm {
+  margin: clamp(0.5rem, 0.4rem + 0.6vw, 0.875rem);
+}
+
+.m-fluid-md {
+  margin: clamp(0.75rem, 0.6rem + 1vw, 1.5rem);
+}
+
+.m-fluid-lg {
+  margin: clamp(1.25rem, 1rem + 1.5vw, 2.5rem);
+}
+
+/* Fluid Gap Utilities */
+.gap-fluid-sm {
+  gap: clamp(0.375rem, 0.3rem + 0.4vw, 0.75rem);
+}
+
+.gap-fluid-md {
+  gap: clamp(0.75rem, 0.6rem + 0.8vw, 1.25rem);
+}
+
