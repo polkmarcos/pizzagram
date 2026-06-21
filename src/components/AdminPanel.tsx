@@ -1733,7 +1733,8 @@ interface AdminProps {
               </div>
             </div>
           </div>
-        )}
+        </div>
+      )}
       </div>
     );
   }

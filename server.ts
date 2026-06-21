@@ -147,7 +147,7 @@ function getStatusMessage(niche: string, status: string, clientName: string, fir
 }
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
 const DB_FILE = path.join(process.cwd(), "data-db.json");
 
 app.use(express.json({ limit: "50mb" }));
@@ -880,8 +880,8 @@ function readDB(): DBStructure {
       pointsPerPizza: 120,
       pointsEnabled: true,
       sitePrice: 97.0,
-      siteDriveLink: "",
-      siteMpToken: ""
+      siteDriveLink: "https://drive.google.com/drive/u/2/folders/11BUbwwfU4oAEDf0UFUl3aPgNe3_ZpT_6",
+      siteMpToken: "APP_USR-2425249541216504-062111-a144598d69e7d76be8b9abdd95363e23-141063585"
     };
   }
 }
