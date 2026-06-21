@@ -589,6 +589,26 @@ try {
   sqliteDb.exec("ALTER TABLE settings ADD COLUMN siteMpToken TEXT DEFAULT '';");
 } catch (e) {}
 
+// Auto-seed default values in persistent databases if empty
+try {
+  const rowCountObj = sqliteDb.prepare("SELECT COUNT(*) as count FROM settings").get() as { count: number };
+  if (rowCountObj && rowCountObj.count > 0) {
+    const settings = sqliteDb.prepare("SELECT * FROM settings WHERE id = 1").get() as any;
+    if (settings) {
+      if (!settings.siteMpToken || settings.siteMpToken.trim() === "") {
+        sqliteDb.prepare("UPDATE settings SET siteMpToken = ? WHERE id = 1").run("APP_USR-2425249541216504-062111-a144598d69e7d76be8b9abdd95363e23-141063585");
+        console.log("Auto-seeded default siteMpToken in database settings.");
+      }
+      if (!settings.siteDriveLink || settings.siteDriveLink.trim() === "") {
+        sqliteDb.prepare("UPDATE settings SET siteDriveLink = ? WHERE id = 1").run("https://drive.google.com/drive/u/2/folders/11BUbwwfU4oAEDf0UFUl3aPgNe3_ZpT_6");
+        console.log("Auto-seeded default siteDriveLink in database settings.");
+      }
+    }
+  }
+} catch (e) {
+  console.error("Erro ao aplicar auto-seeding padrao de vendas:", e);
+}
+
 
 function migrateJSONToSQLite() {
   try {
