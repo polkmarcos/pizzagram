@@ -1,6 +1,6 @@
-FROM node:18-slim
+FROM node:20-slim
 
-# Instala dependências do sistema para o Puppeteer e WhatsApp Web JS
+# Instala dependências do sistema para o Puppeteer, WhatsApp Web JS e compilação de módulos nativos (node-gyp)
 RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
@@ -13,6 +13,9 @@ RUN apt-get update && apt-get install -y \
     libnss3 \
     libxtst6 \
     curl \
+    python3 \
+    make \
+    g++ \
     --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
@@ -27,7 +30,7 @@ WORKDIR /app
 
 # Copia arquivos de dependência e instala
 COPY package*.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 # Copia o código fonte e gera o build de produção (Vite + Server compiling)
 COPY . .
