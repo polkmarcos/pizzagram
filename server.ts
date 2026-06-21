@@ -16,7 +16,16 @@ let currentQrUrl = "";
 const whatsappClient = new Client({
   authStrategy: new LocalAuth({ dataPath: path.join(process.cwd(), ".wwebjs_auth") }),
   puppeteer: {
-    args: ["--no-sandbox", "--disable-setuid-sandbox"]
+    headless: true,
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage",
+      "--disable-gpu",
+      "--no-zygote",
+      "--no-first-run",
+      "--single-process"
+    ]
   }
 });
 
