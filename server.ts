@@ -770,8 +770,185 @@ function migrateJSONToSQLite() {
   }
 }
 
-// Ensure database is initialized/migrated on launch
 migrateJSONToSQLite();
+
+// Auto-seed pizzas and stories if the catalog is empty
+try {
+  const pizzaCountObj = sqliteDb.prepare("SELECT COUNT(*) as count FROM pizzas").get() as { count: number };
+  if (pizzaCountObj && pizzaCountObj.count === 0) {
+    const PRESET_DEMO_PIZZAS = [
+      {
+        id: "1",
+        name: "Margherita Suprema",
+        description: "Um clássico napolitano com molho de tomate artesanal, muçarela fior di latte fresca, manjericão gigante e um generoso fio de azeite extravirgem.",
+        ingredients: ["Molho de tomate italiano", "Muçarela de búfala", "Manjericão fresco", "Azeite trufado", "Parmesão ralado"],
+        price: 49.90,
+        imageUrl: "https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?w=800&auto=format&fit=crop&q=80",
+        category: "Salgada",
+        likes: 1242,
+        priceInPoints: 120
+      },
+      {
+        id: "2",
+        name: "Calabresa Defumada",
+        description: "Calabresa artesanal defumada fatiada fininha, cebola roxa marinada no azeite de ervas, muçarela dourada e azeitonas pretas.",
+        ingredients: ["Molho de tomate", "Muçarela especial", "Calabresa artesanal defumada", "Cebola roxa", "Orégano", "Azeitonas pretas"],
+        price: 45.90,
+        imageUrl: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&auto=format&fit=crop&q=80",
+        category: "Salgada",
+        likes: 932,
+        priceInPoints: 100
+      },
+      {
+        id: "3",
+        name: "Gourmet Quatro Formaggi",
+        description: "Combinação harmoniosa de queijos nobres: muçarela cremosa, gorgonzola dolce importado, provolone defumado e catupiry original.",
+        ingredients: ["Muçarela", "Gorgonzola Dolce", "Provolone defumado", "Catupiry original", "Orégano silvestre"],
+        price: 54.90,
+        imageUrl: "https://images.unsplash.com/photo-1573821663912-569905455b1c?w=800&auto=format&fit=crop&q=80",
+        category: "Salgada",
+        likes: 1530,
+        priceInPoints: 130
+      },
+      {
+        id: "4",
+        name: "Pepperoni & Hot Honey",
+        description: "Fatias crocantes de pepperoni de alto padrão, muçarela, parmesão curado e finalizado com fio de mel picante artesanal.",
+        ingredients: ["Molho de tomate", "Muçarela de cura rápida", "Double Pepperoni", "Mel com pimenta", "Orégano"],
+        price: 52.90,
+        imageUrl: "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=800&auto=format&fit=crop&q=80",
+        category: "Salgada",
+        likes: 1872,
+        priceInPoints: 125
+      },
+      {
+        id: "5",
+        name: "Chocolate com Morangos",
+        description: "Base crocante coberta com ganache de chocolate belga ao leite genuíno, fatias generosas de morangos e raspas de chocolate branco.",
+        ingredients: ["Chocolate Belga meio-amargo", "Morangos frescos", "Raspas de chocolate branco", "Calda artesanal"],
+        price: 46.90,
+        imageUrl: "https://images.unsplash.com/photo-1613564834644-a1707b282b86?w=800&auto=format&fit=crop&q=80",
+        category: "Doce",
+        likes: 2104,
+        priceInPoints: 110
+      },
+      {
+        id: "6",
+        name: "Nutella Suprema com Ninho",
+        description: "Base crocante com ganache pura de Nutella autêntica e finalizada com generosa cobertura de leite Ninho em pó e morangos frescos.",
+        ingredients: ["Nutella original", "Leite Ninho em pó", "Morangos frescos", "Amêndoas em lâminas"],
+        price: 52.90,
+        imageUrl: "https://images.unsplash.com/photo-1613564834644-a1707b282b86?w=800&auto=format&fit=crop&q=80",
+        category: "Doce",
+        likes: 1390,
+        priceInPoints: 125
+      },
+      {
+        id: "7",
+        name: "Coca-Cola Zero Lata",
+        description: "Lata de refrigerante Coca-Cola zero açúcar trincando de gelada.",
+        ingredients: ["Refrigerante", "Lata", "Zero açúcar"],
+        price: 6.00,
+        imageUrl: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=800&auto=format&fit=crop&q=80",
+        category: "Bebida",
+        likes: 541,
+        priceInPoints: 20
+      },
+      {
+        id: "8",
+        name: "Suco de Uva Integral",
+        description: "Garrafa de suco de uva integral 100% natural, sem conservantes e bem gelado.",
+        ingredients: ["Uva selecionada", "Integral", "Copo com gelo"],
+        price: 12.00,
+        imageUrl: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=800&auto=format&fit=crop&q=80",
+        category: "Bebida",
+        likes: 247,
+        priceInPoints: 30
+      }
+    ];
+
+    const PRESET_DEMO_STORIES = [
+      {
+        id: "promo",
+        title: "Ofertas 🔥",
+        emoji: "🏷️",
+        image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&auto=format&fit=crop&q=80",
+        header: "Combo Prime Ativo",
+        description: "Peça qualquer Pizza Grande Salgada e ganhe a Borda Especial de Catupiry ou Provolone grátis! Promoção válida para pagamentos nesta semana."
+      },
+      {
+        id: "meio",
+        title: "Meio-Meio ♊",
+        emoji: "♊",
+        image: "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=800&auto=format&fit=crop&q=80",
+        header: "Sabor Duplo Real",
+        description: "Não decida por um sabor só! Ao selecionar qualquer pizza, clique na opção 'Meio a Meio' para escolher duas metades diferentes de igual cremosidade."
+      },
+      {
+        id: "bordas",
+        title: "As Bordas 🧀",
+        emoji: "🧀",
+        image: "https://images.unsplash.com/photo-1573821663912-569905455b1c?w=800&auto=format&fit=crop&q=80",
+        header: "Bordas Vulcão Artesanais",
+        description: "Bordas recheadas e douradas no forno. Escolha Catupiry original, Cheddar cremoso ou o especial Provolone defumado na finalização da sua pizza."
+      }
+    ];
+
+    const DEFAULT_CATEGORIES = [
+      { id: "Salgada", emoji: "🍕", label: "Salgadas" },
+      { id: "Doce", emoji: "🍫", label: "Doces" },
+      { id: "Bebida", emoji: "🥤", label: "Bebidas" }
+    ];
+
+    sqliteDb.transaction(() => {
+      sqliteDb.prepare("DELETE FROM pizzas").run();
+      const insertPizza = sqliteDb.prepare(`
+        INSERT INTO pizzas (id, name, description, ingredients, price, imageUrl, images, category, likes, comments, priceInPoints)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `);
+      for (const p of PRESET_DEMO_PIZZAS) {
+        insertPizza.run(
+          p.id,
+          p.name,
+          p.description,
+          JSON.stringify(p.ingredients),
+          p.price,
+          p.imageUrl,
+          JSON.stringify([]),
+          p.category,
+          p.likes,
+          JSON.stringify([]),
+          p.priceInPoints
+        );
+      }
+
+      sqliteDb.prepare("DELETE FROM stories").run();
+      const insertStory = sqliteDb.prepare(`
+        INSERT INTO stories (id, title, emoji, image, header, description)
+        VALUES (?, ?, ?, ?, ?, ?)
+      `);
+      for (const s of PRESET_DEMO_STORIES) {
+        insertStory.run(s.id, s.title, s.emoji, s.image, s.header, s.description);
+      }
+
+      sqliteDb.prepare(`
+        UPDATE settings
+        SET pizzeriaName = ?,
+            pizzeriaLogo = ?,
+            categories = ?,
+            demoMode = 1
+        WHERE id = 1
+      `).run(
+        "PizzatoGram 🍕",
+        "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=120&auto=format&fit=crop&q=80",
+        JSON.stringify(DEFAULT_CATEGORIES)
+      );
+      console.log("Banco de dados auto-alimentado com o cardapio demo do PizzatoGram.");
+    })();
+  }
+} catch (e) {
+  console.error("Erro ao aplicar auto-seeding de pizzas/stories:", e);
+}
 
 function readDB(): DBStructure {
   try {
