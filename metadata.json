@@ -1,0 +1,8 @@
+{
+  "name": "Pizzaria Estilo Instagram",
+  "description": "Uma pizzaria gourmet com interface completa inspirada no Instagram, contendo feed de pizzas, pedidos no Direct, rastreamento em tempo real, área administrativa para pedidos e cardápio, pagamentos integrados e envios via WhatsApp.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

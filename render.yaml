@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: pizagram
+    env: docker
+    plan: free
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: true
+        description: "Sua chave de API do Gemini para as funcionalidades de inteligência artificial."
+      - key: APP_URL
+        sync: true
+        description: "A URL completa gerada pelo Render para o seu site (ex: https://pizagram-xyz.onrender.com)"
+    disk:
+      name: database-volume
+      mountPath: /data
+      sizeGB: 1
